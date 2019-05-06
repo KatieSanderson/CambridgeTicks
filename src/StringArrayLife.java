@@ -1,16 +1,40 @@
-public class TinyLife2 {
+public class StringArrayLife {
 
     public static void main(String[] args) throws Exception {
-        int size = Integer.parseInt(args[0]);
-        long initial = Long.decode(args[1]);
-        boolean[][] world = new boolean[size][size];
-        //place the long representation of the game board in the centre of "world"
-        for(int i = 0; i < 8; i++) {
-            for(int j = 0; j < 8; j++) {
-                world[i+size/2-4][j+size/2-4] = PackedLong.get(initial,i*8+j);
+        //"Glider:Richard Guy (1970):20:20:1:1:010 001 111"
+        String[] inputArr = args[0].split(":");
+        String name = inputArr[0];
+        String author = inputArr[1];
+        int width = Integer.parseInt(inputArr[2]);
+        int height = Integer.parseInt(inputArr[3]);
+        int startCol = Integer.parseInt(inputArr[4]);
+        int startRow = Integer.parseInt(inputArr[5]);
+        String[] cellsStrArr = inputArr[6].split(" ");
+        boolean[][] cells = new boolean[cellsStrArr.length][cellsStrArr[0].length()];
+        for (int i = 0; i < cellsStrArr.length; i++) {
+            for (int j = 0; j < cellsStrArr[0].length(); j++) {
+                cells[i][j] = cellsStrArr[i].charAt(j) - '0' == 1;
             }
         }
+//
+//        for (int i = 0; i < cells.length; i++) {
+//            for (int j = 0; j < cells[i].length; j++) {
+//                System.out.print(cells[i][j]);
+//            }
+//            System.out.println("");
+//        }
+
+        boolean[][] world = new boolean[height][width];
+        updateWorld(world, startRow, startCol, cells);
         play(world);
+    }
+
+    private static void updateWorld(boolean[][] world, int startRow, int startCol, boolean[][] cells) {
+        for (int i = 0; i < cells.length; i++) {
+            for (int j = 0; j < cells[i].length; j++) {
+                world[startRow + i][startCol + j] = cells[i][j];
+            }
+        }
     }
 
     public static int countNeighbours(boolean[][] world, int col, int row) {
