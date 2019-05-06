@@ -1,31 +1,10 @@
 public class PatternArrayLife {
 
     public static void main(String[] args) throws Exception {
-        //"Glider:Richard Guy (1970):20:20:1:1:010 001 111"
-        String[] inputArr = args[0].split(":");
-        String name = inputArr[0];
-        String author = inputArr[1];
-        int width = Integer.parseInt(inputArr[2]);
-        int height = Integer.parseInt(inputArr[3]);
-        int startCol = Integer.parseInt(inputArr[4]);
-        int startRow = Integer.parseInt(inputArr[5]);
-        String[] cellsStrArr = inputArr[6].split(" ");
-        boolean[][] cells = new boolean[cellsStrArr.length][cellsStrArr[0].length()];
-        for (int i = 0; i < cellsStrArr.length; i++) {
-            for (int j = 0; j < cellsStrArr[0].length(); j++) {
-                cells[i][j] = cellsStrArr[i].charAt(j) - '0' == 1;
-            }
-        }
-//
-//        for (int i = 0; i < cells.length; i++) {
-//            for (int j = 0; j < cells[i].length; j++) {
-//                System.out.print(cells[i][j]);
-//            }
-//            System.out.println("");
-//        }
 
-        boolean[][] world = new boolean[height][width];
-        updateWorld(world, startRow, startCol, cells);
+        Pattern pattern = new Pattern(args[0]);
+        boolean[][] world = new boolean[pattern.getHeight()][pattern.getWidth()];
+        pattern.initialise(world);
         play(world);
     }
 

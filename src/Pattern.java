@@ -7,19 +7,53 @@ public class Pattern {
     private int startCol;
     private int startRow;
     private String cells;
-    //TODO: write public "get" methods for EACH of the fields above;
-    //      for instance "getName" should be written as:
+
+    public Pattern(String format) {
+        //"Glider:Richard Guy (1970):20:20:1:1:010 001 111"
+        String[] inputArr = format.split(":");
+        name = inputArr[0];
+        author = inputArr[1];
+        width = Integer.parseInt(inputArr[2]);
+        height = Integer.parseInt(inputArr[3]);
+        startCol = Integer.parseInt(inputArr[4]);
+        startRow = Integer.parseInt(inputArr[5]);
+        cells = inputArr[6];
+    }
+
+    public void initialise(boolean[][] world) {
+        String[] cellsStrArr = cells.split(" ");
+        for (int i = 0; i < cellsStrArr.length; i++) {
+            for (int j = 0; j < cellsStrArr[0].length(); j++) {
+                world[i + startRow][j + startCol] = cellsStrArr[i].charAt(j) - '0' == 1;
+            }
+        }
+    }
+
     public String getName() {
         return name;
     }
 
-    public Pattern(String format) {
-        //TODO: initialise all fields of this class using contents of "format"
-        //      to determine the correct values.
+    public String getAuthor() {
+        return author;
     }
 
-    public void initialise(boolean[][] world) {
-        //TODO: update the values in the 2D array representing the state of "world"
-        //      as expressed by the contents of the field "cells".
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getStartCol() {
+        return startCol;
+    }
+
+    public int getStartRow() {
+        return startRow;
+    }
+
+    public String getCells() {
+        return cells;
     }
 }
