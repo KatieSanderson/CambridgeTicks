@@ -1,0 +1,4 @@
+Glider:Richard Guy (1970):20:20:1:1:010 001 111
+Skater:Katie Sanderson (1970):10:20:1:1:010 001 111
+Oscillator:Bradley Wyatt (1970):20:10:1:1:010 001 111
+

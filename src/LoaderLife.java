@@ -1,23 +1,17 @@
-import java.util.Arrays;
+import java.util.List;
 
-public class PatternArrayLife {
+public class LoaderLife {
 
     public static void main(String[] args) throws Exception {
-            Pattern pattern;
-            try {
-                pattern = new Pattern(args[0]);
-            } catch (PatternFormatException e) {
-                System.out.println("Error: Unable to parse " + Arrays.toString(args));
-                return;
-            }
-            boolean[][] world = new boolean[pattern.getHeight()][pattern.getWidth()];
-            try {
-                pattern.initialise(world);
-
-            } catch (PatternFormatException e) {
-                System.out.println("Error: Unable to parse " + Arrays.toString(args));
-            }
-            play(world);
+        List<Pattern> list;
+        if (args[0].startsWith("http://")) {
+            list = PatternLoader.loadFromURL(args[0]);
+        } else {
+            list = PatternLoader.loadFromDisk(args[0]);
+        }
+        for (int i = args.length > 1 ? Integer.parseInt(args[1]) : 0; i < list.size(); i++) {
+            System.out.println(i + ") " + list.get(i).getFormat());
+        }
     }
 
     private static void updateWorld(boolean[][] world, int startRow, int startCol, boolean[][] cells) {

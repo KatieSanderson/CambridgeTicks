@@ -1,5 +1,6 @@
 public class Pattern {
 
+    private String format;
     private String name;
     private String author;
     private int width;
@@ -8,13 +9,10 @@ public class Pattern {
     private int startRow;
     private String cells;
 
-    public Pattern(String[] format) throws PatternFormatException {
-        //"Glider:Richard Guy (1970):20:20:1:1:010 001 111"
+    public Pattern(String format) throws PatternFormatException {
+        this.format = format;
 //        try {
-            if (format.length < 1) {
-                throw new PatternFormatException();
-            }
-            String[] inputArr = format[0].split(":");
+            String[] inputArr = format.split(":");
             if (inputArr.length < 7) {
                 throw new PatternFormatException();
             }
@@ -30,7 +28,7 @@ public class Pattern {
             }
             cells = inputArr[6];
 //        } catch (PatternFormatException e) {
-//            System.out.println("Error: Unable to parse " + Arrays.toString(format));
+//            System.out.println("Error: Unable to parse " + format);
 //        }
     }
 
@@ -49,6 +47,10 @@ public class Pattern {
 //        } catch (PatternFormatException e) {
 //            System.out.println("Error: Unable to parse [" + cells + "]");
 //        }
+    }
+
+    public String getFormat() {
+        return format;
     }
 
     public String getName() {
