@@ -1,11 +1,24 @@
+import java.util.Arrays;
+
 public class PatternArrayLife {
 
     public static void main(String[] args) throws Exception {
+            Pattern pattern;
+            try {
+                pattern = new Pattern(args);
+            } catch (PatternFormatException e) {
+                System.out.println("Error: Unable to parse " + Arrays.toString(args));
+                return;
+            }
+            boolean[][] world = new boolean[pattern.getHeight()][pattern.getWidth()];
+            try {
+                pattern.initialise(world);
 
-        Pattern pattern = new Pattern(args[0]);
-        boolean[][] world = new boolean[pattern.getHeight()][pattern.getWidth()];
-        pattern.initialise(world);
-        play(world);
+            } catch (PatternFormatException e) {
+                System.out.println("Error: Unable to parse [" + pattern.getCells() + "]");
+                return;
+            }
+            play(world);
     }
 
     private static void updateWorld(boolean[][] world, int startRow, int startCol, boolean[][] cells) {
