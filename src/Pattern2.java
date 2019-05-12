@@ -1,4 +1,4 @@
-public class Pattern {
+public class Pattern2 {
 
     private String format;
     private String name;
@@ -9,30 +9,27 @@ public class Pattern {
     private int startRow;
     private String cells;
 
-    Pattern(String format) throws PatternFormatException {
-        this.format = format;
-//        try {
-            String[] inputArr = format.split(":");
-            if (inputArr.length < 7) {
-                throw new PatternFormatException();
-            }
-            name = inputArr[0];
-            author = inputArr[1];
-            try {
-                width = Integer.parseInt(inputArr[2]);
-                height = Integer.parseInt(inputArr[3]);
-                startCol = Integer.parseInt(inputArr[4]);
-                startRow = Integer.parseInt(inputArr[5]);
-            } catch (NumberFormatException e) {
-                throw new PatternFormatException();
-            }
-            cells = inputArr[6];
-//        } catch (PatternFormatException e) {
-//            System.out.println("Error: Unable to parse " + format);
-//        }
+    @SuppressWarnings("unused")
+    public Pattern2(World world) throws PatternFormatException {
+        String[] inputArr = format.split(":");
+        if (inputArr.length < 7) {
+            throw new PatternFormatException();
+        }
+        name = inputArr[0];
+        author = inputArr[1];
+        try {
+            width = Integer.parseInt(inputArr[2]);
+            height = Integer.parseInt(inputArr[3]);
+            startCol = Integer.parseInt(inputArr[4]);
+            startRow = Integer.parseInt(inputArr[5]);
+        } catch (NumberFormatException e) {
+            throw new PatternFormatException();
+        }
+        cells = inputArr[6];
     }
 
-    void initialise(boolean[][] world) throws PatternFormatException {
+    @SuppressWarnings("unused")
+    public void initialise(World world) throws PatternFormatException {
 //        try {
             String[] cellsStrArr = cells.split(" ");
             for (int i = 0; i < cellsStrArr.length; i++) {
@@ -41,7 +38,7 @@ public class Pattern {
                     if (value != 1 && value != 0) {
                         throw new PatternFormatException();
                     }
-                    world[i + startRow][j + startCol] = value == 1;
+                    world.setCell(j + startCol, i + startRow, value == 1);
                 }
             }
 //        } catch (PatternFormatException e) {
@@ -49,7 +46,8 @@ public class Pattern {
 //        }
     }
 
-    String getFormat() {
+    @SuppressWarnings("unused")
+    public String getFormat() {
         return format;
     }
 
@@ -64,11 +62,12 @@ public class Pattern {
     }
 
     @SuppressWarnings("unused")
-    int getWidth() {
+    public int getWidth() {
         return width;
     }
 
-    int getHeight() {
+    @SuppressWarnings("unused")
+    public int getHeight() {
         return height;
     }
 

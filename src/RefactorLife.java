@@ -1,19 +1,28 @@
-public class ArrayLife {
+import java.util.List;
+
+public class RefactorLife {
 
     public static void main(String[] args) throws Exception {
-        int size = Integer.parseInt(args[0]);
-        long initial = Long.decode(args[1]);
-        boolean[][] world = new boolean[size][size];
-        //place the long representation of the game board in the centre of "world"
-        for(int i = 0; i < 8; i++) {
-            for(int j = 0; j < 8; j++) {
-                world[i+size/2-4][j+size/2-4] = PackedLong.get(initial,i*8+j);
-            }
+        List<Pattern> list;
+        if (args[0].startsWith("http://")) {
+            list = PatternLoader.loadFromURL(args[0]);
+        } else {
+            list = PatternLoader.loadFromDisk(args[0]);
         }
-        play(world);
+        for (int i = args.length > 1 ? Integer.parseInt(args[1]) : 0; i < list.size(); i++) {
+            System.out.println(i + ") " + list.get(i).getFormat());
+        }
     }
 
-    private static int countNeighbours(boolean[][] world, int col, int row) {
+    private static void updateWorld(boolean[][] world, int startRow, int startCol, boolean[][] cells) {
+        for (int i = 0; i < cells.length; i++) {
+            for (int j = 0; j < cells[i].length; j++) {
+                world[startRow + i][startCol + j] = cells[i][j];
+            }
+        }
+    }
+
+    public static int countNeighbours(boolean[][] world, int col, int row) {
         int count = 0;
         count += getCell(world, col - 1, row - 1) ? 1 : 0; // above and left
         count += getCell(world, col - 1, row) ? 1 : 0; // to the left
@@ -26,7 +35,7 @@ public class ArrayLife {
         return count;
     }
 
-    private static boolean computeCell(boolean[][] world, int col, int row) {
+    public static boolean computeCell(boolean[][] world, int col, int row) {
         boolean currentCellState = getCell(world, col, row);
         int neighbors = countNeighbours(world, col, row);
         boolean nextCellState = false;
@@ -44,7 +53,7 @@ public class ArrayLife {
         return nextCellState;
     }
 
-    private static boolean[][] nextGeneration(boolean[][] world) {
+    public static boolean[][] nextGeneration(boolean[][] world) {
         boolean[][] nextWorld = new boolean[world.length][world[0].length];
         for (int col = 0; col < Long.BYTES; col++) {
             for (int row = 0; row < Long.BYTES; row++) {
@@ -56,11 +65,11 @@ public class ArrayLife {
 
     }
 
-    private static boolean getCell(boolean[][] world, int col, int row) {
+    public static boolean getCell(boolean[][] world, int col, int row) {
         return row >= 0 && col >= 0 && row < world.length && col < world[row].length && world[row][col];
     }
 
-    private static void setCell(boolean[][] world, int col, int row, boolean value) {
+    public static void setCell(boolean[][] world, int col, int row, boolean value) {
         if (row >= 0 && col >= 0 && row < world.length && col < world[row].length) {
             world[row][col] = value;
         }
@@ -76,7 +85,7 @@ public class ArrayLife {
         }
     }
 
-    private static void play(boolean[][] world) throws Exception {
+    public static void play(boolean[][] world) throws Exception {
         int userResponse = 0;
         while (userResponse != 'q') {
             print(world);

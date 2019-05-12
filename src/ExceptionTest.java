@@ -15,10 +15,8 @@ class ExceptionTest {
         System.out.print("J");
     }
 
-    public static void b() throws Exception {
+    private static void b() throws Exception {
         System.out.print("T");
-        if (1+2+3==6)
-            throw new Exception("1");
-        System.out.print("V");
+        throw new Exception("1");
     }
 }

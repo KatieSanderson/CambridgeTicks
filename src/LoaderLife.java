@@ -6,23 +6,20 @@ public class LoaderLife {
         List<Pattern> list;
         if (args[0].startsWith("http://")) {
             list = PatternLoader.loadFromURL(args[0]);
-        } else {
-            list = PatternLoader.loadFromDisk(args[0]);
-        }
+        } else list = PatternLoader.loadFromDisk(args[0]);
         for (int i = args.length > 1 ? Integer.parseInt(args[1]) : 0; i < list.size(); i++) {
             System.out.println(i + ") " + list.get(i).getFormat());
         }
     }
 
+    @SuppressWarnings("unused")
     private static void updateWorld(boolean[][] world, int startRow, int startCol, boolean[][] cells) {
         for (int i = 0; i < cells.length; i++) {
-            for (int j = 0; j < cells[i].length; j++) {
-                world[startRow + i][startCol + j] = cells[i][j];
-            }
+            if (cells[i].length >= 0) System.arraycopy(cells[i], 0, world[startRow + i], startCol, cells[i].length);
         }
     }
 
-    public static int countNeighbours(boolean[][] world, int col, int row) {
+    private static int countNeighbours(boolean[][] world, int col, int row) {
         int count = 0;
         count += getCell(world, col - 1, row - 1) ? 1 : 0; // above and left
         count += getCell(world, col - 1, row) ? 1 : 0; // to the left
@@ -35,7 +32,7 @@ public class LoaderLife {
         return count;
     }
 
-    public static boolean computeCell(boolean[][] world, int col, int row) {
+    private static boolean computeCell(boolean[][] world, int col, int row) {
         boolean currentCellState = getCell(world, col, row);
         int neighbors = countNeighbours(world, col, row);
         boolean nextCellState = false;
@@ -53,7 +50,7 @@ public class LoaderLife {
         return nextCellState;
     }
 
-    public static boolean[][] nextGeneration(boolean[][] world) {
+    private static boolean[][] nextGeneration(boolean[][] world) {
         boolean[][] nextWorld = new boolean[world.length][world[0].length];
         for (int col = 0; col < Long.BYTES; col++) {
             for (int row = 0; row < Long.BYTES; row++) {
@@ -65,11 +62,11 @@ public class LoaderLife {
 
     }
 
-    public static boolean getCell(boolean[][] world, int col, int row) {
+    private static boolean getCell(boolean[][] world, int col, int row) {
         return row >= 0 && col >= 0 && row < world.length && col < world[row].length && world[row][col];
     }
 
-    public static void setCell(boolean[][] world, int col, int row, boolean value) {
+    private static void setCell(boolean[][] world, int col, int row, boolean value) {
         if (row >= 0 && col >= 0 && row < world.length && col < world[row].length) {
             world[row][col] = value;
         }
@@ -85,6 +82,7 @@ public class LoaderLife {
         }
     }
 
+    @SuppressWarnings("unused")
     public static void play(boolean[][] world) throws Exception {
         int userResponse = 0;
         while (userResponse != 'q') {
